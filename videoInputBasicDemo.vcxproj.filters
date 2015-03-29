@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{780202da-a56d-424c-8dcf-05690d89cd21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\demoAppUtils">
+      <UniqueIdentifier>{f16cb55c-f86d-439c-9efe-a7541689a27c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\theApp">
+      <UniqueIdentifier>{7db08263-f746-4965-87a8-22cb39a485e5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\imageTexture.cpp">
+      <Filter>src\demoAppUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\simpleApp.cpp">
+      <Filter>src\demoAppUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>src\demoAppUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\trace.cpp">
+      <Filter>src\demoAppUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\videoInputBasicDemo.cpp">
+      <Filter>src\demoAppUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\triangleApp.cpp">
+      <Filter>src\theApp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\imageTexture.h">
+      <Filter>src\demoAppUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\simpleApp.h">
+      <Filter>src\demoAppUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>src\demoAppUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\trace.h">
+      <Filter>src\demoAppUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\triangleApp.h">
+      <Filter>src\theApp</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
