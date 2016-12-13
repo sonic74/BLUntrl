@@ -49,11 +49,11 @@ int main(int argc, _TCHAR* argv[])
     char    titlestr[ 200 ];
 	int p=0;
 	
-	printf("BLUntrl written 2009, 2010 by Sven Killig <sven@killig.de>\n");
-	printf("BLUntrl.exe [ VfWDeviceNo | MonitorNo (-1=all) Brightness (0-100%) ]\n");
+	printf("BLUntrl written 2009-2012, 2016 by Sven Killig <sven@killig.de>\n");
+	printf("BLUntrl [ VfWDeviceNo | ( MonitorNo|MonitorName(-1=all) Brightness(0-100%) ) ]\n");
 //printf("argc=%i\n", argc);
 	if(argc==3) {
-		TAPP.setBrightness(atoi((char*)argv[1]),atoi((char*)argv[2]));
+		TAPP.setBrightness(/*atoi(*/(char*)argv[1]/*)*/, atoi((char*)argv[2]));
 		return 0;
 	} else if(argc==2) {
 		// all doesn't work?!

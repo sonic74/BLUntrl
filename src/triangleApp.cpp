@@ -187,7 +187,7 @@ printf("GetPhysicalMonitorsFromHMONITOR: bSuccess=%i\n", bSuccess);
                 pPhysicalMonitors[i].szPhysicalMonitorDescription,
                 pPhysicalMonitors[i].hPhysicalMonitor
                 ));
-wprintf(L"Physical monitor %i: '%s' (handle = 0x%X)\n", i, pPhysicalMonitors[i].szPhysicalMonitorDescription, pPhysicalMonitors[i].hPhysicalMonitor);
+wprintf(L"Physical monitor %i: \"%s\" (handle = 0x%X)\n", i, pPhysicalMonitors[i].szPhysicalMonitorDescription, pPhysicalMonitors[i].hPhysicalMonitor);
 
 
 			DWORD minVal = 0, maxVal = 0, current = 0;
@@ -201,7 +201,13 @@ if(!bSuccess) {
 				printf("Brightness: %d (%d - %d) -> %d\n", current, minVal, maxVal, bSuccess);
 				m_maxVal[m_noMonitor]=maxVal;
 			}
-			if(m_maxVal[m_noMonitor]>0 && (m_targetMonitor==-1 || m_targetMonitor==m_noMonitor) ) {
+			char szNoMonitor[256]; sprintf(szNoMonitor, "%i", m_noMonitor);
+			char szPhysicalMonitorDescription[256]; sprintf(szPhysicalMonitorDescription, "%ws", pPhysicalMonitors[i].szPhysicalMonitorDescription);
+			if (m_maxVal[m_noMonitor]>0 && (
+				/*m_targetMonitor==*/strcmp(m_monitor, "-1") == 0 ||
+				/*m_targetMonitor==*/strcmp(m_monitor, szNoMonitor) == 0 ||
+				strcmp(m_monitor, szPhysicalMonitorDescription) == 0
+			)) {
 				SetMonitorBrightness(pPhysicalMonitors[i].hPhysicalMonitor, m_brightness*m_maxVal[m_noMonitor]/100);
 				printf("\nSetMonitorBrightness(%d)\n", m_brightness*m_maxVal[m_noMonitor]/100);
 			}
@@ -265,14 +271,35 @@ BOOL triangleApp::FreeMonitorHandles()
 
 
 
-void triangleApp::setBrightness(int monitor, int brightness) {
+void triangleApp::setBrightness(/*int*/char* monitor, int brightness) {
 	if(brightness>100) brightness=100;
 	else if(brightness<0) brightness=0;
 	if(brightness!=m_brightness) {
 		m_brightness=brightness;
 		m_noMonitor=0;
-		m_targetMonitor=monitor;
+//		m_targetMonitor = monitor;
+		m_monitor = monitor;
 		AllocateMonitorHandles();
+		if (strcmp(m_monitor, "-1")==0) {
+			char lpParameters[256]; sprintf(lpParameters, "SetBrightness %i", brightness);
+			ShellExecuteA(NULL, "open", "nircmd", lpParameters, NULL, SW_SHOWDEFAULT);
+			/*char lpParameters[256]; sprintf(lpParameters, "nircmd SetBrightness %i", brightness);
+			system(lpParameters);*/
+
+			/*STARTUPINFOA si;
+			PROCESS_INFORMATION pi;
+
+			ZeroMemory(&si, sizeof(si));
+			si.cb = sizeof(si);
+			ZeroMemory(&pi, sizeof(pi));
+
+			if (CreateProcessA("nircmd", lpParameters, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
+			{
+				WaitForSingleObject(pi.hProcess, INFINITE);
+				CloseHandle(pi.hProcess);
+				CloseHandle(pi.hThread);
+			}*/
+		}
 	}
 }
 
@@ -326,7 +353,7 @@ if(t0-tOld>.5) {
 		/*m_brightness=100*avg/255+glfwGetMouseWheel();
 		m_noMonitor=0;
 		AllocateMonitorHandles();*/
-		setBrightness(-1, 100*m_avg/255+m_shift);
+		setBrightness("-1", 100*m_avg/255+m_shift);
 
 		//we then load them into our texture
 		IT->loadImageData(frame, VI.getWidth(dev), VI.getHeight(dev),GL_RGB);
@@ -379,7 +406,7 @@ void triangleApp::mousewheelRotated(int position) {
 	printf("\nm_brightness=%d; m_shift=%d\n", m_brightness, m_shift);
 	/*m_brightness+=diff;
 	AllocateMonitorHandles();*/
-	setBrightness(-1, 100*m_avg/255+m_shift);
+	setBrightness("-1", 100*m_avg/255+m_shift);
 	m_oldPosition=position;
 }
 

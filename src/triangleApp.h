@@ -30,8 +30,9 @@ class triangleApp : public simpleApp{
 		virtual void mouseUp  ( float x, float y, int button );
 		
 	    BOOL OnEnumMonitor(HMONITOR hMonitor);
-		void setBrightness(int monitor, int brightness);
-		int m_brightness,m_noMonitor,m_targetMonitor,m_oldPosition,m_shift,m_avg,m_avg2;
+		void setBrightness(/*int*/char* monitor, int brightness);
+		int m_brightness,m_noMonitor/*,m_targetMonitor*/,m_oldPosition,m_shift,m_avg,m_avg2;
+		char* m_monitor;
 		int m_maxVal[10];
 
 		imageTexture * IT;
